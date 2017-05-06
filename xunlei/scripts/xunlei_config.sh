@@ -1,6 +1,6 @@
 #!/bin/sh
 #2017/04/21 by kenney
-#version 0.1
+#version 0.2
 
 export KSROOT=/jffs/koolshare
 source $KSROOT/scripts/base.sh
