@@ -4,6 +4,7 @@
 import os
 import json
 import codecs
+import datetime
 import hashlib
 from string import Template 
 
@@ -13,7 +14,7 @@ def md5sum(full_path):
     with open(full_path, 'rb') as rf:
         return hashlib.md5(rf.read()).hexdigest()
 
-def get_or_create():
+def get_or_create(date_now):
     conf_path = os.path.join(parent_path, "config.json.js")
     conf = {}
     if not os.path.isfile(conf_path):
@@ -24,17 +25,21 @@ def get_or_create():
         conf["home_url"] = ("Module_%s.asp" % module_name)
         conf["title"] = "title of " + module_name
         conf["description"] = "description of " + module_name
+        conf["name"] = module_name
+        conf["tar_url"] = module_name + "/" + module_name + ".tar.gz"
+        conf["build_date"] = date_now
+
     else:
         with codecs.open(conf_path, "r", "utf-8") as fc:
             conf = json.loads(fc.read())
     return conf
 
-def build_module():
+def build_module(date_now):
     try:
-        conf = get_or_create()
+        conf = get_or_create(date_now)
     except:
         print u"config.json.js 文件格式错误"
-        traceback.print_exc()
+        sys.exit(1)
     if "module" not in conf:
         print u"没有 module 在 config.json.js 里"
         return
@@ -50,12 +55,15 @@ def build_module():
     t = Template("cd $parent_path && rm -f $module.tar.gz && tar -zcf $module.tar.gz $module")
     os.system(t.substitute({"parent_path": parent_path, "module": conf["module"]}))
     conf["md5"] = md5sum(os.path.join(parent_path, conf["module"] + ".tar.gz"))
+    conf["build_date"] = date_now
     conf_path = os.path.join(parent_path, "config.json.js")
     with codecs.open(conf_path, "w", "utf-8") as fw:
-        json.dump(conf, fw, sort_keys = True, indent = 4, ensure_ascii=False, encoding='utf8')
+        json.dump(conf, fw, sort_keys = True, indent = 4, ensure_ascii = False, encoding = 'utf8')
     print u"生成完成", conf["module"] + ".tar.gz"
     hook_path = os.path.join(parent_path, "backup.sh")
     if os.path.isfile(hook_path):
         os.system(hook_path + " " + conf["module"])
 
-build_module()
+now = datetime.datetime.now()
+date_now = now.strftime('%Y-%m-%d %H:%M:%S')
+build_module(date_now)
