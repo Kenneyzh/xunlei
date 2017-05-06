@@ -78,6 +78,7 @@ $('#xunlei-fields').forms([
 { title: '激活码', name: 'xunlei_ackey', text: Apps.xunlei_ackey ||'--' },
 { title: '绑定账号', name: 'xunlei_user', text: Apps.xunlei_user ||'--' },
 { title: '磁盘状态', name: 'xunlei_disk', text: Apps.xunlei_disk ||'--' },
+{ title: '控制台', name: 'xunlei_webui', text: '<a href="http://yuancheng.xunlei.com/" target="_blank">迅雷远程控制台</a>' },
 //{ title: '域名', name: 'xunlei_domain', type: 'text', maxlen: 32, size: 34, value: Apps.xunlei_domain || 'ex.example.com'},
 //{ title: 'DNS服务器', name: 'xunlei_dns', type: 'text', maxlen: 15, size: 15, value: Apps.xunlei_dns ||'223.5.5.5',suffix:'<small>查询域名当前IP时使用的DNS解析服务器，默认为阿里云DNS</small>'},
 //{ title: '获取IP接口', name: 'xunlei_curl', type: 'select', options:option_mode,value:Apps.xunlei_curl || '1'},
