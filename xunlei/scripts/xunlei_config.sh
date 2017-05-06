@@ -22,8 +22,8 @@ if [ "`dbus get xunlei_enable`" = "1" ]; then
 		fi
 		let n++
 	done
-
-	getinfo=`curl -s http://127.0.0.1:9000/getsysinfo|sed 's/ //g'|sed 's/"//g'`
+	sysinfo_port=`cat /tmp/xunlei.log|grep "YOUR CONTROL PORT IS:"|awk -F' ' '{print $5}'|sed -n 2p`
+	getinfo=`curl -s http://127.0.0.1:${sysinfo_port}/getsysinfo|sed 's/ //g'|sed 's/"//g'`
 	net_ok=`echo $getinfo|cut -d',' -f2`
 	bind_ok=`echo $getinfo|cut -d',' -f4`
 	ackey=`echo $getinfo|cut -d',' -f5`

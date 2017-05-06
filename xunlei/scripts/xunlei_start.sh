@@ -10,5 +10,5 @@ if [ ! -z "$xunleiPath" ];then
 	#sleep 10
 	$xunleiPath/portal -s &
 	sleep 1
-	$xunleiPath/portal &
+	$xunleiPath/portal >/tmp/xunlei.log&
 fi
